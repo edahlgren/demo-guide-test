@@ -1,5 +1,5 @@
-demo = 'dm/ant-colony-search'
 title = "Super cool demo about ant colonies"
+image = "demomag/ant-colony-search"
 
 ########################################################
 #
@@ -33,3 +33,266 @@ default = "djibouti"
     'cmp.lu980',
     'stat.lu980',
   ]
+
+########################################################
+#
+# 'demo run --help'
+#
+########################################################
+
+[input]
+
+  [input.tspfile]
+  options = ["-i", "--tsplibfile"]
+  format = "file.tsp"
+  description = "A TSPLIB formatted file containing a graph, where edge weights represent distances between data points (e.g. cities)"
+  example = "/root/data/cities/djibouti/dj38.tsp"
+  
+[output]
+
+  [output.best]
+  options = []
+  format = "best.DATASET"
+  description = "Statistics about the best (shortest) solutions found during each trial run"
+  example = ""
+
+  [output.cmp]
+  options = []
+  format = "cmp.DATASET"
+  description = "Statistics about all trial runs"
+  example = ""
+        
+  [output.stat]
+  options = []
+  file = "stat.DATASET"
+  description = "Raw statistics"
+  example = ""
+  
+[algorithms]
+
+  [algorithms.basic]
+  options = ["-u", "--as"]
+  description = "Basic Ant System"
+  docs = ["/root/papers/AntSystem.pdf"]
+  
+  [algorithms.elitist]
+  options = ["-v", "--eas"]
+  description = "Elitist Ant System"
+  docs = ["/root/papers/AntSystem.pdf"]
+
+  [algorithms.rank]
+  options = ["-w", "--ras"]
+  description = "Rank-based Ant System"
+  docs = ["/root/papers/RankBased.pdf"]
+
+  [algorithms.colony]
+  name = "Ant Colony System"
+  options = ["-z", "--acs"]
+  docs = ["/root/papers/AntColonySystem.pdf"]
+  
+  [algorithms.maxmin]
+  options = ["-x", "--mmas"]
+  description = "MAX-MIN Ant System"
+  docs = ["/root/papers/MAXMIN.pdf"]
+
+  [algorithms.bestworst]
+  options = ["-y", "--bwas"]
+  description = "Best-worst Ant System"
+  docs = ["/root/papers/BestWorst.pdf"]
+
+[param]
+
+  [params.tries]
+  options = ["-r", "--tries"]
+  description = "Number of independent trials"  
+  default = "10"
+
+  [params.tours]
+  options = ["-s", "--tours"]
+  description = "Number of steps in each trial"
+  default = "0"
+
+  [params.time]
+  options = ["-t", "--time"]
+  description = "Maximum time for each trial in seconds"
+  default = "10"
+
+  [params.seed]
+  options = ["--seed"]
+  description = "Seed for the random number generator"
+  default = "(current time)"
+
+  [params.optimum]
+  options = ["-o", "--optimum"]
+  description = "Stop if tour better or equal to optimum is found"
+  default = "1"
+
+  [params.ants]
+  options = ["-m", "--ants"]
+  description = "Number of ants"
+  default = "25"  
+
+  [params.nnants]
+  options = ["-g", "--nnants"]
+  description = "Nearest neighbours in tour construction"
+  default = "20"
+
+  [params.alpha]
+  options = ["-a", "--alpha"]
+  description =  "Alpha (influence of pheromone trails)"
+  default = "1.0"
+
+  [params.beta]
+  options = ["-b", "--beta"]
+  description = "Beta (influence of heuristic information)"
+  default = "2.0"
+
+  [params.rho]
+  options = ["-e", "--rho"]
+  description = "Rho: pheromone trail evaporation"
+  default = "0.5"
+
+  [params.q0]
+  options = ["-q", "--q0"]
+  description = "q_0: prob. of best choice in tour construction"
+  default = "0.0"
+
+  [params.elitistants]
+  options = ["-c", "--elitistants"]
+  description = "Number of elitist ants"
+  method = 2
+  default = "0"
+
+  [params.rasranks]
+  options = ["-f", "--rasranks"]
+  description = "Number of ranks in rank-based Ant System"
+  method = 3
+  default = "0"
+
+  [params.localsearch]
+  options = ["-l", "--localsearch"]
+  description = "0: no local search   1: 2-opt   2: 2.5-opt   3: 3-opt"
+  default = "3" 
+
+  [params.nnls]
+  options = ["-k", "--nnls"]
+  description = "Number of nearest neighbors for local search"
+  default = "20"
+
+  [params.dlb]
+  options = ["-d", "--dlb"]
+  description = "Use don't look bits in local search"
+  default = "true"
+
+  [params.quiet]
+  options = ["--quiet"]
+  description = "Reduce output to a minimum"
+  default = "false"
+  
+########################################################
+#
+# 'demo build'
+#
+########################################################
+
+[build]
+default = "default"
+clean = '/demo/build/clean.sh'
+
+  [build.preconfigured.default]
+  script = '/demo/build/default.sh'
+  description = "make with gcc"
+
+  [build.preconfigured.optimized]
+  script = '/demo/build/optimized.sh'
+  description = "make with gcc -O3"
+
+  [build.preconfigured.debug]
+  script = '/demo/build/debug.sh'
+  description = "make with gcc -g"
+
+########################################################
+#
+# 'demo data'
+#
+########################################################
+
+[data]
+
+  [data.preconfigured.national_tsp]
+  description = "National traveling salesman problem datasets, featuring countries from around the world"
+  source = "University of Waterloo"
+  url = "http://www.math.uwaterloo.ca/tsp/world/countries.html"
+      
+  [data.preconfigured.national_tsp.extra]
+  cities = "cities"  
+  optimal_tour = "optimal tour"
+    
+  [data.preconfigured.national_tsp.set.djibouti]
+  dir = "/root/data/djibouti"
+  files = [
+    "dj38.tsp",
+    "djtour.gif",
+  ]
+  file_descriptions = [
+    "A graph representing all 38 cities in the country of Djibouti, in TSPLIB format",
+    "A geographic map of an optimal round-trip tour through the cities of Djibouti",
+  ]
+  extra = ["cities", "optimal_tour"]
+  cities = 38
+  optimal_tour = 6656
+  
+  [data.preconfigured.national_tsp.set.qatar]
+  dir = "/root/data/qatar"
+  files = [
+    "qa194.tsp",
+    "qatour.gif",
+  ]
+  file_descriptions = [
+    "A graph representing all 194 cities in the country of Qatar, in TSPLIB format",
+    "A geographic map of an optimal round-trip tour through the cities of Qatar",
+  ]
+  extra = ["cities", "optimal_tour"]
+  cities = 194
+  optimal_tour = 9352
+
+  [data.preconfigured.national_tsp.set.luxembourg]
+  dir = "/home/data/luxembourg"
+  files = [
+    "lu980.tsp",
+    "lutour.gif",
+  ]
+  file_descriptions = [
+    "A graph representing all 980 cities in the country of Luxembourg, in TSPLIB format",
+    "A geographic map of an optimal round-trip tour through the cities of Luxembourg",
+  ]
+  extra = ["cities", "optimal_tour"]
+  cities = 980
+  optimal_tour = 11340
+
+########################################################
+#
+# 'demo source'
+#
+########################################################
+
+[source]
+
+  [source.preconfigured.acotsp]
+  authors = []
+  version = "1.03"
+  license = 'GPLv2'
+  dir = ['/root/src/acotsp']
+  description = "Implements six ant colony optimization algorithmsrithms that solve traveling salesman problems"
+
+  [source.preconfigured.acotsp.notable_files.parse]
+  file = 'parse.c'
+  description = "Parses commandline parameters"
+
+  [source.preconfigured.acotsp.notable_files.init]
+  file = 'InOut.c'
+  description = "Initializes the ant colony"
+
+  [source.preconfigured.acotsp.notable_files.algorithm]
+  file = 'acotsp.c'
+  description = "(entrypoint) Implements ant searching to solve TSP"
