@@ -1,0 +1,17 @@
+{
+  "name": "demo-guides-help",
+  "version": "1.0.0",
+  "description": "",
+  "main": "convert.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "command-line-args": "^5.1.1",
+    "html-to-text": "^5.1.1",
+    "lodash": "^4.17.15",
+    "remarkable": "^1.7.1"
+  }
+}
