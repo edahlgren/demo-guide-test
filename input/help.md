@@ -1,4 +1,4 @@
-# (help) - Name of the demo
+# {{title}}
 
 ## Layout of this demo
 

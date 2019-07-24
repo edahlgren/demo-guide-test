@@ -1,0 +1,35 @@
+demo = 'dm/ant-colony-search'
+title = "Super cool demo about ant colonies"
+
+########################################################
+#
+# 'demo run'
+#
+########################################################
+
+[run]
+default = "djibouti"
+
+  [run.preconfigured.djibouti]
+  script = '/demo/run/djibouti.sh'
+  output_files = [
+    'best.dj38',
+    'cmp.dj38',
+    'stat.dj38',
+  ]
+
+  [run.preconfigured.qatar]
+  script = '/demo/run/qatar.sh'
+  output_files = [
+    'best.qa194',
+    'cmp.qa194',
+    'stat.qa194',
+  ]
+
+  [run.preconfigured.luxembourg]
+  script = '/demo/run/luxembourg.sh'
+  output_files = [
+    'best.lu980',
+    'cmp.lu980',
+    'stat.lu980',
+  ]
