@@ -1,4 +1,4 @@
-title = "Super cool demo about ant colonies"
+title = "Ant Colony Search"
 image = "demomag/ant-colony-search"
 
 [meta]
@@ -251,15 +251,15 @@ clean = '/demo/build/clean.sh'
 
   [build.preconfigured.default]
   script = '/demo/build/default.sh'
-  description = "make with gcc"
+  description = "Build acotsp with gcc"
 
   [build.preconfigured.optimized]
   script = '/demo/build/optimized.sh'
-  description = "make with gcc -O3"
+  description = "Build acotsp with gcc -O3"
 
   [build.preconfigured.debug]
   script = '/demo/build/debug.sh'
-  description = "make with gcc -g"
+  description = "Build acotsp with gcc -g"
 
 ########################################################
 #
@@ -313,6 +313,9 @@ clean = '/demo/build/clean.sh'
   license = 'GPLv2'
   dir = ['/root/src/acotsp']
   description = "Implements six ant colony optimization algorithmsrithms that solve traveling salesman problems"
+  build_files = [
+    '/root/src/acotsp/Makefile'
+  ]
 
   [source.preconfigured.acotsp.notable_files.parse]
   file = 'parse.c'

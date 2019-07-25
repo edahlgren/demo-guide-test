@@ -75,19 +75,35 @@ function parseVars(args, topic) {
     switch (topic) {
     case 'run':
         return dataForRun(tomlData);
+    case 'build':
+        return dataForBuild(tomlData);
     default:
         return tomlData;
     }
 }
 
+function dataForBuild(data) {
+    var out = {
+        title: data.title,
+        build: {},
+        source: {}
+    };
+
+    out.build['preconfigured'] = objectToArray(data.build.preconfigured);
+    out.source['preconfigured'] = objectToArray(data.source.preconfigured);
+
+    console.log(util.inspect(out, false, null, true /* enable colors */));
+    return out;
+}
+
 function dataForRun(data) {
-    console.log(data);
     var out = {
         title: data.title,
         run: {
             description: data.run.description,
         }
     };
+    
     out.run['preconfigured'] = objectToArray(data.run.preconfigured);
     out.run['examples'] = objectToArray(data.run.examples);
     out['input'] = objectToArray(data.input);
@@ -95,19 +111,6 @@ function dataForRun(data) {
     out['algorithms'] = objectToArray(data.algorithms);
     out['params'] = objectToArray(data.params);
 
-    console.log(util.inspect(out, false, null, true /* enable colors */));
-    
-    // TODO: Convert Demofile json to json that works with run.md
-    //
-    // - Fill out run.description to Demofile
-    //
-    // - Transform
-    //     [run.preconfigured], [run.examples], [input], [output],
-    //     [algorithms], [params],
-    //   { run: { preconfigured: { djibouti: { description: ... } } }
-    //   { run: { preconfigured: [ { name: djibouti, description: ... } }
-    //
-    // - Make output options show "(not configurable)"
     return out;
 }
 

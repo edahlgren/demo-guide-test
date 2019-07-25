@@ -387,10 +387,7 @@ function tableToString(table, options) {
 
         // Handle row
         for (var j = 0; j < row.length; j++) {
-            let col = row[j];
-            if (col.length == 0)
-                continue;
-            
+            let col = row[j];            
             let width = widths[j];
 
             if (j < last) {

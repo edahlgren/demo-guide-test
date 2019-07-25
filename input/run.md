@@ -1,4 +1,12 @@
-# (run help) {{title}}
+# (run help) - {{title}}
+
+## Quick reference
+
+Run the demo using the default preconfiguration
+
+```
+$ demo run
+```
 
 ## Summary
 
@@ -23,7 +31,13 @@ Use a preconfigured demo
 $ demo run <configuration>
 ```
 
-Use command-line options
+Manually execute the commands produced by
+
+```
+$ demo run <configuration> --dryrun
+```
+
+Use your own command-line options
 
 ```
 $ demo run -- [options...]
@@ -43,7 +57,7 @@ $ demo run {{name}}
 
 |                 |             |                   |
 | --------------- | ----------- | ----------------- |
-| options         | default     | description       |
+|                 | (default)   | (description)     |
 |___Input         |             |                   |
 {{#input}}
 | {{options}}     | {{default}} | {{description}}   |
@@ -62,9 +76,9 @@ $ demo run {{name}}
 {{/params}}
 
 
-## Command-line examples
-
+## Examples
 {{#run.examples}}
+
 {{description}}
 
 ```
