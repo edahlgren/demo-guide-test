@@ -1,3 +1,4 @@
+const util = require('util');
 const fs = require('fs');
 const path = require('path');
 
@@ -73,13 +74,29 @@ function parseVars(args, topic) {
 
     switch (topic) {
     case 'run':
-        return transformForRun(tomlData);
+        return dataForRun(tomlData);
     default:
         return tomlData;
     }
 }
 
-function transformForRun(data) {
+function dataForRun(data) {
+    console.log(data);
+    var out = {
+        title: data.title,
+        run: {
+            description: data.run.description,
+        }
+    };
+    out.run['preconfigured'] = objectToArray(data.run.preconfigured);
+    out.run['examples'] = objectToArray(data.run.examples);
+    out['input'] = objectToArray(data.input);
+    out['output'] = objectToArray(data.output);
+    out['algorithms'] = objectToArray(data.algorithms);
+    out['params'] = objectToArray(data.params);
+
+    console.log(util.inspect(out, false, null, true /* enable colors */));
+    
     // TODO: Convert Demofile json to json that works with run.md
     //
     // - Fill out run.description to Demofile
@@ -90,9 +107,31 @@ function transformForRun(data) {
     //   { run: { preconfigured: { djibouti: { description: ... } } }
     //   { run: { preconfigured: [ { name: djibouti, description: ... } }
     //
-    // - Join with ' ': run.example._.options
-    //
     // - Make output options show "(not configurable)"
+    return out;
+}
+
+function objectToArray(orig) {
+    var out = [];
+    for (var key in orig) {
+        let newobj = { name: key };
+
+        let child = orig[key];
+        for (var attr in child) {
+            let field = child[attr];
+            if (attr === "options") {
+                if (field.length == 0)
+                    newobj[attr] = "none";
+                else
+                    newobj[attr] = field.join(", ");
+            } else {
+                newobj[attr] = field;
+            }
+        }
+
+        out.push(newobj);
+    }
+    return out;
 }
 
 main();

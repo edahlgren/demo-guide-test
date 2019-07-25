@@ -4,10 +4,11 @@ const mustache = require('mustache');
 const remarkable = require('remarkable');
 const htmlToText = require('html-to-text');
 
-var compact = require('lodash/compact');
-var zip = require('lodash/zip');
-var max = require('lodash/max');
-var padEnd = require('lodash/padEnd');
+const compact = require('lodash/compact');
+const zip = require('lodash/zip');
+const max = require('lodash/max');
+const padEnd = require('lodash/padEnd');
+const wrap = require('word-wrap');
 
 // vars for template.md
 // template.md
@@ -107,6 +108,7 @@ function renderText(html) {
 
     return buffer;
 }
+
 function __renderText(html) {
     var buffer = '';
     
@@ -125,11 +127,12 @@ function __renderText(html) {
         ignoreImage: true,
         
         // This doesn't seem to work properly
-        wordwrap: null,
+        wordwrap: 70,
         
         format: {
             heading: function(elem, fn, options) {
                 let text = formatHeading(elem, fn, options);
+                console.log(text);
                 buffer += text;
                 return text;
             },
@@ -219,12 +222,27 @@ function formatIndent(isHeader) {
 function formatHeading(elem, fn, options) {
     header = elem.name;            
 
-    let text = fn(elem.children, options);    
-    text = '\n' + formatIndent(true) + text + '\n';
-    
-    if (elem.name !== 'h1') {
-        let underline = "=";
-        text += formatIndent(true) +  underline.repeat(text.length) + '\n';
+    let text = '';
+    switch (header) {
+    case 'h1':
+    case 'h2':
+        text = '\n';
+        break;
+    }
+        
+    let orig = fn(elem.children, options);    
+    text += formatIndent(true) + orig + '\n';
+
+    switch (header) {
+    case 'h2':
+        text += formatIndent(true) +  ("=").repeat(orig.length) + '\n';
+        break;
+
+        /**
+    case 'h3':
+        text += formatIndent(true) +  ("-").repeat(orig.length) + '\n';
+        break;
+         **/
     }
     
     text += '\n';
@@ -257,6 +275,14 @@ function isCode(elem, options) {
             elem.children[0].name == 'code');
 }
 
+function formatBareHeading(elem, fn, options) {
+    var heading = fn(elem.children, options);
+    if (options.uppercaseHeadings) {
+        heading = heading.toUpperCase();
+    }
+    return heading + '\n';
+}
+
 function formatTable(elem, fn, options) {
     var table = [];
     function tryParseRows(elem) {
@@ -273,13 +299,25 @@ function formatTable(elem, fn, options) {
         case 'tr':
             var row = [];
             elem.children.forEach(function(elem) {
-                var tokens;
+                let newOptions = JSON.parse(JSON.stringify(options));
+                newOptions.wordwrap = 1000;
                 if (elem.type === 'tag') {
-                    if (elem.name.toLowerCase() === 'td') {
-                        tokens = fn(elem.children, options).split('\n');
-                        row.push(compact(tokens)[0]);
+                    switch (elem.name.toLowerCase()) {
+                    case 'th':
+                        let rawHeading = formatBareHeading(elem, fn, newOptions);
+                        row.push(rawHeading);
+                        break;
+                        
+                    case 'td':
+                        let rawText = fn(elem.children, newOptions);
+                        row.push(rawText);
+                        break;
                     }
                 }
+            });
+            
+            row = row.map(function(col) {
+                return col || '';
             });
             table.push(row);
             break;
@@ -287,7 +325,7 @@ function formatTable(elem, fn, options) {
     }    
     elem.children.forEach(tryParseRows);
 
-    let lines = tableToString(table).split('\n');
+    let lines = tableToString(table, options).split('\n');
 
     let text = '';
     lines.forEach(function(line) {
@@ -297,11 +335,27 @@ function formatTable(elem, fn, options) {
     return text;    
 }
 
-function tableToString(table) {
+function tableToString(table, options) {
+    // Find heading rows and remove them
+    var headings = {};
+    var hasHeadings = false;
+    for (let r = 0; r < table.length; r++) {
+        let firstCol = table[r][0];
+        if (firstCol.startsWith('___')) {
+            hasHeadings = true;
+            headings[r] = firstCol.replace("___", "").trim();
+        } else {
+            headings[r] = "";
+        }
+    }
+    
     // Determine space width per column
     // Convert all rows to lengths
+    console.log(table);
     var widths = table.map(function(row) {
         return row.map(function(col) {
+            if (col.startsWith('___'))
+                return 0;
             return col.length;
         });
     });
@@ -312,19 +366,81 @@ function tableToString(table) {
     widths = widths.map(function(col) {
         return max(col);
     });
-    
+
     // Build the table
     var text = '';
-    table.forEach(function(row) {
-        var i = 0;
-        row.forEach(function(col) {
-            text += padEnd(col, widths[i++], ' ') + '   ';
-        });
-        if (text.length == 0)
-            return;
-        text += '\n';
-    });
+    var lastRow = table.length - 1;
+    for (let r = 0; r < table.length; r++) {
+        if (hasHeadings && headings[r].length > 0) {
+            if (r > 1)
+                text += '\n';
+            text += headings[r] + '\n\n';
+            continue;
+        }
+        
+        var t = '';
+        let row = table[r];
+
+        // Manually wrap around the last column
+        let firstLen = 0;        
+        let last = row.length - 1;
+
+        // Handle row
+        for (var j = 0; j < row.length; j++) {
+            let col = row[j];
+            if (col.length == 0)
+                continue;
+            
+            let width = widths[j];
+
+            if (j < last) {
+                // Handle columns before last
+                let fmt = padEnd(col, width, ' ') + '   ';
+                t += fmt;
+                firstLen += fmt.length;
+                continue;
+            }
+            
+            // Handle the last column specially
+            let max = options.wordwrap - firstLen;
+            if (max < 45)
+                max = 45;
+
+            // Handle simple case (no word wrap necessary)
+            if (col.length <= max) {
+                t += col;
+                break;
+            }
+
+            // Get wrapped lines
+            let lines = wrap(col, { width: max, indent: '' }).split('\n');
+            
+            // Handle the first
+            t += lines[0];
+            if (lines.length > 1) {
+                for (let l = 1; l < lines.length; l++) {
+                    t += '\n' + (' ').repeat(firstLen + 2) + lines[l];
+                }
+            }
+            break;
+        }
+
+        // Skip empty rows
+        if (t.trim().length == 0)
+            continue;
+
+        // Create inner table headings
+        if (hasHeadings)
+            text += '  ' + t + '\n';
+        else
+            text += t + '\n';
+    }
+    
     return text;
+}
+
+function splitOnWords(str, nchars) {
+    return wrap(str, {width: nchars}).split('\n');
 }
 
 module.exports = {

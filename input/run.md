@@ -1,34 +1,29 @@
 # (run help) {{title}}
 
-## Synopsis
+## Summary
 
 {{run.description}}
 
-### Input
-
+|              |                 |
+| -----------  | --------------- |
+| ___Input     |
 {{#input}}
-|            |                 |
-| ---------- | --------------- |
-| {{format}} | {{description}} |
+| {{format}}   | {{description}} |
 {{/input}}
-
-### Output
-
+| ___Output    |                 | 
 {{#output}}
-|            |                 |
-| ---------- | --------------- |
-| {{format}} | {{description}} |
-{{/input}}
+| {{format}}   | {{description}} |
+{{/output}}
 
 ## Ways to run
 
-Using a preconfigured demo
+Use a preconfigured demo
 
 ```
 $ demo run <configuration>
 ```
 
-Using command-line options
+Use command-line options
 
 ```
 $ demo run -- [options...]
@@ -46,49 +41,33 @@ $ demo run {{name}}
 
 ## Command-line options
 
-### Input
-
-|             |                 |
-| ----------  | --------------- |
+|                 |             |                   |
+| --------------- | ----------- | ----------------- |
+| options         | default     | description       |
+|___Input         |             |                   |
 {{#input}}
-| {{options}} | {{format}} |
+| {{options}}     | {{default}} | {{description}}   |
 {{/input}}
-
-See 'Synopsis' above for descriptions
-
-### Output
-
-|             |                 |
-| ----------  | --------------- |
+|___Output        |             |                   |
 {{#output}}
-| {{options}} | {{format}} |
+| {{options}}     | {{default}} | {{description}}   |
 {{/output}}
-
-See 'Synopsis' above for descriptions
-
-### Algorithms
-
-|             |                 | default     |
-| ----------- | --------------- |:-----------:|
+|___Algorithms    |             |                   |
 {{#algorithms}}
-| {{options}} | {{description}} | {{default}} |
+| {{options}}     | {{default}} | {{description}}   |
 {{/algorithms}}
-
-### Parameters
-
-|             |                 |
-| ----------- | --------------- |
+|___Parameters    |             |                   |
 {{#params}}
-| {{options}} | {{description}}\n(default: {{default}}) |
+| {{options}}     | {{default}} | {{description}}   |
 {{/params}}
 
 
-## Examples
+## Command-line examples
 
 {{#run.examples}}
 {{description}}
 
 ```
-$ demo run -- {{options}}
+$ demo run -- {{&commandline}}
 ```
 {{/run.examples}}

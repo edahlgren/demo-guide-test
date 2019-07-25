@@ -34,8 +34,8 @@ image = "demomag/ant-colony-search"
 ########################################################
 
 [run]
+description = "This is a description of this demo, which could on and on for a couple of lines, like this and that, and all the way around"
 default = "djibouti"
-description = ""
 
   [run.preconfigured.djibouti]
   description = "Find the shortest roundtrip through the cities of Djibouti"
@@ -65,20 +65,20 @@ description = ""
   ]
 
   [run.examples.djibouti_elitist]
-  description = "Explore Djibouti using the Elitist Ant System algorithm"
-  commandline = "-i /root/data/djibouti/dj38.tsp --eas"
+  description = "Use the Elitist Ant System algorithm to solve Djibouti"
+  commandline = '--eas -i /root/data/djibouti/dj38.tsp'
   
   [run.examples.qatar_time]
-  description = "Explore Qatar for 20 seconds using the default MAX-MIN Ant System"
-  commandline = "-i /root/data/qatar/qa194.tsp --time 20"
+  description = "Spend 20 seconds solving Qatar"
+  commandline = '--time 20 -i /root/data/qatar/qa194.tsp'
 
   [run.examples.djibouti_ants]
-  description = "Explore Djibouti using 100 ants using the default MAX-MIN Ant System"
-  commandline = "-i /root/data/djibouti/dj38.tsp --ants 100"
+  description = "Use 100 ants to solve Djibouti"
+  commandline = '--ants 100 -i /root/data/djibouti/dj38.tsp'
   
   [run.examples.luxembourg_ants]
-  description = "Explore Luxembourg for 5 seconds, using the Basic Ant System algorithm, where each ant can share information with its nearest 40 neighbors"
-  commandline = "-i /root/data/luxembourg/lu980.tsp --as --time 5 --nnants 40"
+  description = "Use the Basic Ant System and allow each ant to share information with its nearest 40 neighbors to solve Luxembourg"
+  commandline = '--as --nnants 40 -i /root/data/luxembourg/lu980.tsp'
 
 ########################################################
 #
@@ -89,26 +89,30 @@ description = ""
 [input]
 
   [input.tspfile]
-  options = ["-i", "--tsplibfile"]
-  format = "file.tsp"
   description = "A TSPLIB formatted file containing points and distances between them"
+  options = ["--tsplibfile", "-i"]
+  format = "file.tsp"
+  default = "none"
   
 [output]
 
   [output.best]
+  description = "Statistics about the best (shortest) solutions found during each trial run"
   options = []
   format = "best.file"
-  description = "Statistics about the best (shortest) solutions found during each trial run"
+  default = "best.file"
 
   [output.cmp]
+  description = "Statistics about all trial runs"
   options = []
   format = "cmp.file"
-  description = "Statistics about all trial runs"
+  default = "cmp.file"
         
   [output.stat]
-  options = []
-  file = "stat.file"
   description = "Raw statistics, see source code"
+  options = []
+  format = "stat.file"
+  default = "stat.file"
   
 [algorithms]
 
@@ -116,113 +120,117 @@ description = ""
   options = ["--as", "-u"]
   description = "Basic Ant System"
   docs = ["/root/papers/AntSystem.pdf"]
+  default = "false"
   
   [algorithms.elitist]
   options = ["--eas", "-v"]
   description = "Elitist Ant System"
   docs = ["/root/papers/AntSystem.pdf"]
+  default = "false"
 
   [algorithms.rank]
   options = ["--ras", "-w"]
   description = "Rank-based Ant System"
   docs = ["/root/papers/RankBased.pdf"]
+  default = "false"
 
   [algorithms.colony]
   options = ["--acs", "-z"]
   description = "Ant Colony System"
   docs = ["/root/papers/AntColonySystem.pdf"]
+  default = "false"
   
   [algorithms.maxmin]
   options = ["--mmas", "-x"]
   description = "MAX-MIN Ant System"
   docs = ["/root/papers/MAXMIN.pdf"]
-  default = 1
+  default = "true"
 
   [algorithms.bestworst]
   options = ["--bwas", "-y"]
   description = "Best-worst Ant System"
   docs = ["/root/papers/BestWorst.pdf"]
+  default = "false"
 
 [params]
 
   [params.tries]
-  options = ["-r", "--tries"]
+  options = ["--tries", "-r"]
   description = "Number of independent trials"  
   default = "10"
 
   [params.tours]
-  options = ["-s", "--tours"]
+  options = ["--tours", "-s"]
   description = "Number of steps in each trial"
   default = "0"
 
   [params.time]
-  options = ["-t", "--time"]
+  options = ["--time", "-t"]
   description = "Maximum time for each trial in seconds"
   default = "10"
 
   [params.seed]
   options = ["--seed"]
   description = "Seed for the random number generator"
-  default = "(current time)"
+  default = "current time"
 
   [params.optimum]
-  options = ["-o", "--optimum"]
-  description = "Stop if tour better or equal to optimum is found"
+  options = ["--optimum", "-o"]
+  description = "Stop if tour is better or equal to optimum"
   default = "1"
 
   [params.ants]
-  options = ["-m", "--ants"]
+  options = ["--ants", "-m"]
   description = "Number of ants"
   default = "25"  
 
   [params.nnants]
-  options = ["-g", "--nnants"]
+  options = ["--nnants", "-g"]
   description = "Nearest neighbours in tour construction"
   default = "20"
 
   [params.alpha]
-  options = ["-a", "--alpha"]
-  description =  "Alpha (influence of pheromone trails)"
+  options = ["--alpha", "-a"]
+  description =  "Influence of pheromone trails"
   default = "1.0"
 
   [params.beta]
-  options = ["-b", "--beta"]
-  description = "Beta (influence of heuristic information)"
+  options = ["--beta", "-b"]
+  description = "Influence of heuristic information"
   default = "2.0"
 
   [params.rho]
-  options = ["-e", "--rho"]
-  description = "Rho: pheromone trail evaporation"
+  options = ["--rho", "-e"]
+  description = "Pheromone trail evaporation"
   default = "0.5"
 
   [params.q0]
-  options = ["-q", "--q0"]
-  description = "q_0: prob. of best choice in tour construction"
+  options = ["--q0", "-q"]
+  description = "Probability of best choice in tour construction"
   default = "0.0"
 
   [params.elitistants]
-  options = ["-c", "--elitistants"]
+  options = ["--elitistants", "-c"]
   description = "Number of elitist ants"
   default = "0"
 
   [params.rasranks]
-  options = ["-f", "--rasranks"]
+  options = ["--rasranks", "-f"]
   description = "Number of ranks in rank-based Ant System"
-  method = 3
   default = "0"
 
   [params.localsearch]
-  options = ["-l", "--localsearch"]
-  description = "0: no local search   1: 2-opt   2: 2.5-opt   3: 3-opt"
+  options = ["--localsearch", "-l"]
+  description = "0: don't do local search, 1: 2-opt, 2: 2.5-opt, 3: 3-opt"
   default = "3" 
 
   [params.nnls]
-  options = ["-k", "--nnls"]
+  options = ["--nnls", "-k"]
   description = "Number of nearest neighbors for local search"
   default = "20"
 
   [params.dlb]
-  options = ["-d", "--dlb"]
+  options = ["--dlb", "-d"]
   description = "Use don't look bits in local search"
   default = "true"
 
