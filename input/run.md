@@ -1,38 +1,35 @@
 # (run help) - {{title}}
 
+Execute the main binaries and scripts of this demo
+
 ## Quick reference
 
-Run the demo using the default preconfiguration
+Run the demo using the default configuration
 
 ```
 $ demo run
 ```
 
-Run the demo using command-line options
+Run the demo using command-line options (see below)
 
 ```
-$ demo run -- --option1 arg1 --option2 --option3
+$ demo run -- --opt1 arg1 --opt2 --opt3
+```
+
+View stdout and stderr logs
+
+```
+$ cat run.log
+$ cat run.error
 ```
 
 ## Summary
-
-The 'demo run' command executes the code in /run/src using shell scripts in /demo/run.
-
-It forwards logs to the standard output of your shell and it writes them to run.log (stdout) and run.error (stderr).
-
-## General Options
-
-| -------  | --------------------------------------------- |
-| --dryrun | Print out the commands that would be executed |
-| --help   | Show this guide                               |
-
-## What happens
 
 {{run.description}}
 
 |              |                 |
 | -----------  | --------------- |
-| ___Input     |
+| ___Input     |                 |
 {{#input}}
 | {{format}}   | {{description}} |
 {{/input}}
@@ -62,8 +59,8 @@ $ demo run -- [options...]
 ```
 
 ## Configured runs
-
 {{#run.preconfigured}}
+
 {{description}}
 
 ```
@@ -111,3 +108,25 @@ View this guide
 ```
 $ demo run --help
 ```
+
+## More
+
+Learn about the data used in these runs
+
+```
+$ less /docs/data/README
+```
+
+Learn about the source code used in these runs
+
+```
+$ less /docs/src/README
+```
+
+### Read the run scripts
+
+|           |              |
+| --------- | ------------ |
+{{#run.preconfigured}}
+| {{name}}  | {{script}}   |
+{{/run.preconfigured}}

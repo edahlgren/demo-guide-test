@@ -1,51 +1,42 @@
 # (build help) - {{title}}
 
+Build the main source code of this demo
+
 ## Quick reference
 
-Build the source code in /root/src using the default build configuration
+Build sources using the default build configuration
 
 ```
 $ demo build
 ```
 
-Build cleanly, removing object files and old binaries first
+Build sources cleanly, removing object files and old binaries first
 
 ```
 $ demo build --clean
 ```
 
+View stdout and stderr build logs
+
+```
+$ cat build.log
+$ cat build.error
+```
+
 ## Summary
 
-The 'demo build' command builds the code in /run/src using shell scripts in /demo/run and build files in /run/src.
-
-It forwards logs to the standard output of your shell and it writes them to build.log (stdout) and build.error (stderr).
-
-## General Options
-
-| -------- | ----------------------------------------------------- |
-| --clean  | Remove old build artifacts before attempting to build |
-| --dryrun | Print out the commands that would be executed         |
-| --help   | Show this guide                                       |
-
-## What happens
-
-{{build.description}}
-
-### Input
-
-| -------- | ------------ |
+|           |              |
+| --------- | ------------ |
+| ___Uses build files  |              |
 {{#source.preconfigured}}
 {{#build_files}}
-| {{name}} | {{file}}     |
+| ({{name}})  | {{file}}     |
 {{/build_files}}
 {{/source.preconfigured}}
-
-### Output
-
-| ----------------------- |
+| ___Produces build artifacts |              |
 {{#source.preconfigured}}
 {{#build_artifacts}}
-| {{name}} | {{file}}     |
+| ({{name}})  | {{file}}     |
 {{/build_artifacts}}
 {{/source.preconfigured}}
 
@@ -80,3 +71,19 @@ View this guide
 ```
 $ demo build --help
 ```
+
+## More
+
+Learn about the source code used in these builds
+
+```
+$ less /docs/src/README
+```
+
+### Read the build scripts
+
+|           |              |
+| --------- | ------------ |
+{{#build.preconfigured}}
+| {{name}}  | {{script}}   |
+{{/build.preconfigured}}

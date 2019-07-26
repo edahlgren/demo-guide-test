@@ -1,27 +1,6 @@
 title = "Ant Colony Search"
 image = "demomag/ant-colony-search"
 
-[docs]
-
-  [docs.papers.ant_system]
-  keywords = [
-    "Basic Ant System",
-    "Elitist Ant System",
-  ]
-  file = "AntSystem.pdf"
-
-  [docs.papers.rank_based]
-  keywords = ["Rank-based Ant System"]
-  file = "RankBased.pdf"
-
-  [docs.papers.colony]
-  keywords = ["Ant Colony System"]
-  file = "AntColonySystem.pdf"
-
-  [docs.papers.bestworst]
-  keywords = ["Best-worst Ant System"]
-  file = "BestWorst.pdf"
-
 ########################################################
 #
 # 'demo run'
@@ -244,11 +223,11 @@ clean = '/demo/build/clean.sh'
 
   [build.preconfigured.optimized]
   script = '/demo/build/optimized.sh'
-  description = "Build acotsp with gcc -O3"
+  description = "Build acotsp with gcc optimization level 3"
 
   [build.preconfigured.debug]
   script = '/demo/build/debug.sh'
-  description = "Build acotsp with gcc -g"
+  description = "Build acotsp with gcc and include debug symbols"
 
 ########################################################
 #
@@ -350,3 +329,24 @@ clean = '/demo/build/clean.sh'
   file = 'InOut.c'
   description = "Initializes the ant colony"
   tag = ""
+
+[papers]
+
+  [papers.ant_system]
+  keywords = [
+    "Basic Ant System",
+    "Elitist Ant System",
+  ]
+  file = "AntSystem.pdf"
+
+  [papers.rank_based]
+  keywords = ["Rank-based Ant System"]
+  file = "RankBased.pdf"
+
+  [papers.colony]
+  keywords = ["Ant Colony System"]
+  file = "AntColonySystem.pdf"
+
+  [papers.bestworst]
+  keywords = ["Best-worst Ant System"]
+  file = "BestWorst.pdf"

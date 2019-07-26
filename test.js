@@ -90,8 +90,35 @@ function dataForBuild(data) {
     };
 
     out.build['preconfigured'] = objectToArray(data.build.preconfigured);
+    // Add (default) to default build
+    out.build.preconfigured.forEach(function(config) {
+        if (config.name === data.build.default) {
+            config.description += " (default)";
+        }
+    });
+    
     out.source['preconfigured'] = objectToArray(data.source.preconfigured);
-
+    // Transform [file] -> [{name: repo, file: file}]
+    // for build_files and build_artifacts
+    out.source.preconfigured.forEach(function(repo) {
+        var files = [];
+        var artifacts = [];
+        for (let i = 0; i < repo.build_files.length; i++) {
+            files.push({
+                name: repo.name,
+                file: repo.build_files[i]
+            });
+        }
+        for (let i = 0; i < repo.build_artifacts.length; i++) {
+            artifacts.push({
+                name: repo.name,
+                file: repo.build_artifacts[i]
+            });
+        }
+        repo.build_files = files;
+        repo.build_artifacts = artifacts;
+    });
+    
     console.log(util.inspect(out, false, null, true /* enable colors */));
     return out;
 }
@@ -105,12 +132,20 @@ function dataForRun(data) {
     };
     
     out.run['preconfigured'] = objectToArray(data.run.preconfigured);
+    // Add (default) to default run
+    out.run.preconfigured.forEach(function(config) {
+        if (config.name === data.run.default) {
+            config.description += " (default)";
+        }
+    });
+    
     out.run['examples'] = objectToArray(data.run.examples);
     out['input'] = objectToArray(data.input);
     out['output'] = objectToArray(data.output);
     out['algorithms'] = objectToArray(data.algorithms);
     out['params'] = objectToArray(data.params);
 
+    console.log(util.inspect(out, false, null, true /* enable colors */));
     return out;
 }
 

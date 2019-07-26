@@ -132,7 +132,6 @@ function __renderText(html) {
         format: {
             heading: function(elem, fn, options) {
                 let text = formatHeading(elem, fn, options);
-                console.log(text);
                 buffer += text;
                 return text;
             },
@@ -234,15 +233,12 @@ function formatHeading(elem, fn, options) {
     text += formatIndent(true) + orig + '\n';
 
     switch (header) {
+    case 'h1':
+        text += '\n';
+        break;
     case 'h2':
         text += formatIndent(true) +  ("=").repeat(orig.length) + '\n';
         break;
-
-        /**
-    case 'h3':
-        text += formatIndent(true) +  ("-").repeat(orig.length) + '\n';
-        break;
-         **/
     }
     
     text += '\n';
@@ -351,7 +347,6 @@ function tableToString(table, options) {
     
     // Determine space width per column
     // Convert all rows to lengths
-    console.log(table);
     var widths = table.map(function(row) {
         return row.map(function(col) {
             if (col.startsWith('___'))
