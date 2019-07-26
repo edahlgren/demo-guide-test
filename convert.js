@@ -165,8 +165,9 @@ function __renderText(html) {
             },
             unorderedList: function(elem, fn, options) {
                 let text = fn(elem.children, options);
-                console.log("Warning didn't write unordered list: " +
-                            elem.name + ": " + text);
+                //console.log("Warning didn't write unordered list: " +
+                //            elem.name + ": " + text);
+                buffer += formatIndent(true) + text + '\n\n';
                 return text;
             },
             listItem: function(elem, fn, options) {

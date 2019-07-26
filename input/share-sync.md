@@ -1,48 +1,52 @@
 # (share|sync help) - {{title}}
 
+Make a directory accessible in a shared directory outside this demo, and sync any changes you made there back to the same directory in the demo
+
 ## Quick reference
 
-Access a copy of the /root/src directory from your shared directory outside of the demo
+Access a copy of /root/src from a shared directory outside the demo
 
 ```
 $ demo share /root/src
 ```
 
-Sync changes made to /root/src in your shared directory with /root/src inside the demo
+Sync changes you made in a shared directory so they appear in /root/src in the demo
 
 ```
 $ demo sync /root/src
 ```
 
-Or share and sync your current directory
+Access an exact copy of /root/src from a shared directory, deleting files in the shared directory if necessary
+
+```
+$ demo share /root/src --completely
+```
+
+Sync changes to /root/src completely, deleting files under /root/src in the demo if necessary
+
+```
+$ demo sync /root/src --completely
+```
+
+You can execute the same commands on the current directory
 
 ```
 $ cd /root/src
 $ demo share
-$ demo sync
+```
+
+```
+$ cd /root/src
+$ demo sync --completely
 ```
 
 ## Summary
 
-Both 'demo share' and 'demo sync' execute rsync.
+When you run 'demo shell' to enter a demo, you choose or configure a shared directory, whose contents will show up in the demo under /shared. When you change the contents of your shared directory, your changes will also appear in /shared, and vice versa.
 
-'demo share' syncs files to your shared directory outside the demo. 'demo sync' syncs changes you made in your shared directory back to the same directories inside the demo.
+'demo share' uses rsync to efficiently copy a directory in the demo (e.g. /root/src) to the same directory in /shared (e.g. /shared/root/src). Use this command to access demo files from your shared directory outside the demo, allowing you to view and change the demo files directly on your computer, using your favorite editors and tools.
 
-## General Options
-
-| ------------- | ----------------------------------------------------- |
-| --complete    | Match directories completely, deleting files at the desination that don't exist anymore at the source. Same behavior as 'rsync --delete'. Use with caution |
-| --dryrun      | Print out the commands that would be executed         |
-| --verbose, -v | Show rsync output (copied files)                      |
-| --help        | Show this guide                                       |
-
-## What happens
-
-When you run 'demo shell' to enter a demo, you choose or configure a shared directory. If you change the contents of /shared in the demo, those changes will immediately show up in your shared directory outside of the demo, and vice versa.
-
-'demo share' uses rsync to efficiently copy a directory in the demo (e.g. /root/src) to the same directory in /shared (e.g. /shared/root/src). Use this command to access any demo files from the shared directory (outside of the demo) using your favorite file editors and local tools.
-
-'demo sync' uses rsync efficiently copy a directory in /shared (e.g. /shared/root/src) back to the same directory in the demo (e.g. /root/src). Use this command to pull changes you made in the shared directory (outside of the demo) back inside the demo.
+'demo sync' uses rsync to efficiently copy a directory in /shared (e.g. /shared/root/src) back to the same directory in the demo (e.g. /root/src). Use this command to pull changes you made in your shared directory back into the demo.
 
 ## Example
 
@@ -58,14 +62,13 @@ Edit the files in your shared directory outside of the demo. Then pull in the ch
 $ demo sync /root/src/repo
 ```
 
-Rebuild and run the demo with the changes
+Rebuild and run the default configuration with your changes
 
 ```
-$ demo build
-$ demo run
+$ demo build && demo run
 ```
 
-## About this workflow
+## Why this workflow
 
 The files inside the demo are likely owned by a different user (e.g. root) than the files outside the demo (e.g. your user ID). When you run 'demo share', files are not only efficiently copied, they are also changed so you own them and therefore can modify them outside of the demo. When you run 'demo sync', files are changed back to the user in the demo so you can also easily access them there.
 
@@ -84,5 +87,10 @@ View this guide
 
 ```
 $ demo share --help
+```
+
+Same as above
+
+```
 $ demo sync --help
 ```
