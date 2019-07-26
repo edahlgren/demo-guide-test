@@ -1,15 +1,17 @@
 # (help) {{title}}
 
-## Layout of this demo
+## About this demo
 
-|            |                                                          |
-| ---------- | -------------------------------------------------------- |
-| /setup     | scripts used to install the demo                         |
-| /demo      | config files used by this CLI                            |
-| /root/src  | source code repositories                                 |
-| /root/data | sample test data                                         |
-| /root/docs | articles and papers describing the demo                  |
-| /shared    | synchronized with a shared directory outside of the demo |
+{{description}}
+
+|            |                                                            |
+| ---------- | ---------------------------------------------------------- |
+| /setup     | scripts used to install the demo in this shell             |
+| /demo      | config files used by the 'demo' CLI                        |
+| /root/src  | source code and build artifacts                            |
+| /root/data | sample test data                                           |
+| /root/docs | articles and papers describing the demo                    |
+| /shared    | synchronized with a shared directory outside of this shell |
 
 ## Quickstart
 
@@ -53,24 +55,32 @@ $ demo build
 For a high-level map of documentation
 
 ```
-$ demo docs
+$ demo docs --help
 ```
+
+Read help docs and research docs in your browser, from outside of the demo where you ran 'demo shell'
+
+```
+$ demo browse
+```
+
+Or read /root/src/README.md for an overview of the source code
 
 ## Experiment
 
-Experiment with different inputs, parameters, and algorithms
+Learn how to experiment with different inputs, parameters, and algorithms
 
 ```
 $ demo run --help
 ```
 
-Experiment with debug symbols, optimized code, and other build options
+Learn how to experiment with debug symbols, optimized code, and other build options
 
 ```
 $ demo build --help
 ```
 
-Experiment with different test data sets
+Learn how to experiment with different test data sets
 
 ```
 $ demo data --help

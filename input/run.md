@@ -8,7 +8,25 @@ Run the demo using the default preconfiguration
 $ demo run
 ```
 
+Run the demo using command-line options
+
+```
+$ demo run -- --option1 arg1 --option2 --option3
+```
+
 ## Summary
+
+The 'demo run' command executes the code in /run/src using shell scripts in /demo/run.
+
+It forwards logs to the standard output of your shell and it writes them to run.log (stdout) and run.error (stderr).
+
+## General Options
+
+| -------  | --------------------------------------------- |
+| --dryrun | Print out the commands that would be executed |
+| --help   | Show this guide                               |
+
+## What happens
 
 {{run.description}}
 
@@ -23,9 +41,10 @@ $ demo run
 | {{format}}   | {{description}} |
 {{/output}}
 
+
 ## Ways to run
 
-Use a preconfigured demo
+Use a configured run
 
 ```
 $ demo run <configuration>
@@ -43,7 +62,7 @@ Use your own command-line options
 $ demo run -- [options...]
 ```
 
-## Preconfigured Demos
+## Configured runs
 
 {{#run.preconfigured}}
 {{description}}
@@ -85,3 +104,11 @@ $ demo run {{name}}
 $ demo run -- {{&commandline}}
 ```
 {{/run.examples}}
+
+## Help
+
+View this guide
+
+```
+$ demo run --help
+```
