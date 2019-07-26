@@ -29,20 +29,24 @@ It forwards logs to the standard output of your shell and it writes them to buil
 
 ## What happens
 
+{{build.description}}
+
 ### Input
 
+| -------- | ------------ |
 {{#source.preconfigured}}
 {{#build_files}}
-{{.}}
+| {{name}} | {{file}}     |
 {{/build_files}}
 {{/source.preconfigured}}
 
 ### Output
 
+| ----------------------- |
 {{#source.preconfigured}}
-{{#artifacts}}
-{{.}}
-{{/artifacts}}
+{{#build_artifacts}}
+| {{name}} | {{file}}     |
+{{/build_artifacts}}
 {{/source.preconfigured}}
 
 ## Ways to build

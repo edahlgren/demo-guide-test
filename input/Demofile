@@ -1,31 +1,26 @@
 title = "Ant Colony Search"
 image = "demomag/ant-colony-search"
 
-[meta]
+[docs]
 
-  [meta.djibouti.cities]
-  description = "Cities"
-  data = 38
+  [docs.papers.ant_system]
+  keywords = [
+    "Basic Ant System",
+    "Elitist Ant System",
+  ]
+  file = "AntSystem.pdf"
 
-  [meta.djibouti.optimal_tour]
-  description = "Optimal tour"
-  data = 6656
+  [docs.papers.rank_based]
+  keywords = ["Rank-based Ant System"]
+  file = "RankBased.pdf"
 
-  [meta.qatar.cities]
-  description = "Cities"
-  data = 194
+  [docs.papers.colony]
+  keywords = ["Ant Colony System"]
+  file = "AntColonySystem.pdf"
 
-  [meta.qatar.optimal_tour]
-  description = "Optimal tour"
-  data = 194
-  
-  [meta.luxembourg.cities]
-  description = "Cities"
-  data = 980
-  
-  [meta.luxembourg.optimal_tour]
-  description = "Optimal tour"
-  data = 11340
+  [docs.papers.bestworst]
+  keywords = ["Best-worst Ant System"]
+  file = "BestWorst.pdf"
 
 ########################################################
 #
@@ -119,37 +114,31 @@ default = "djibouti"
   [algorithms.basic]
   options = ["--as", "-u"]
   description = "Basic Ant System"
-  docs = ["/root/papers/AntSystem.pdf"]
   default = "false"
   
   [algorithms.elitist]
   options = ["--eas", "-v"]
   description = "Elitist Ant System"
-  docs = ["/root/papers/AntSystem.pdf"]
   default = "false"
 
   [algorithms.rank]
   options = ["--ras", "-w"]
   description = "Rank-based Ant System"
-  docs = ["/root/papers/RankBased.pdf"]
   default = "false"
 
   [algorithms.colony]
   options = ["--acs", "-z"]
   description = "Ant Colony System"
-  docs = ["/root/papers/AntColonySystem.pdf"]
   default = "false"
   
   [algorithms.maxmin]
   options = ["--mmas", "-x"]
   description = "MAX-MIN Ant System"
-  docs = ["/root/papers/MAXMIN.pdf"]
   default = "true"
 
   [algorithms.bestworst]
   options = ["--bwas", "-y"]
   description = "Best-worst Ant System"
-  docs = ["/root/papers/BestWorst.pdf"]
   default = "false"
 
 [params]
@@ -267,37 +256,60 @@ clean = '/demo/build/clean.sh'
 #
 ########################################################
 
+[meta]
+
+  [meta.djibouti.cities]
+  description = "Cities"
+  data = 38
+
+  [meta.djibouti.optimal_tour]
+  description = "Optimal tour"
+  data = 6656
+
+  [meta.qatar.cities]
+  description = "Cities"
+  data = 194
+
+  [meta.qatar.optimal_tour]
+  description = "Optimal tour"
+  data = 194
+  
+  [meta.luxembourg.cities]
+  description = "Cities"
+  data = 980
+  
+  [meta.luxembourg.optimal_tour]
+  description = "Optimal tour"
+  data = 11340
+  
 [data]
 
   [data.preconfigured.national_tsp]
+  title = "National TSP"
   description = "National traveling salesman problem datasets, featuring countries from around the world"
   source = "University of Waterloo"
   url = "http://www.math.uwaterloo.ca/tsp/world/countries.html"
       
-  [data.preconfigured.national_tsp.extra]
-  cities = "Cities"  
-  optimal_tour = "Optimal tour"
-    
-  [data.preconfigured.national_tsp.file.djibouti]
+  [data.preconfigured.national_tsp.files.djibouti]
+  title = "Djibouti"
   file = "/root/data/djibouti/dj38.tsp"
-  description = "A graph representing all 38 cities in the country of Djibouti, in TSPLIB format"
-  extra = ["cities", "optimal_tour"]
-  cities = 38
-  optimal_tour = 6656
-  
-  [data.preconfigured.national_tsp.file.qatar]
-  file = "/root/data/qatar/qa194.tsp"
-  description = "A graph representing all 194 cities in the country of Qatar, in TSPLIB format"
-  extra = ["cities", "optimal_tour"]
-  cities = 194
-  optimal_tour = 9352
+  description = "A graph representing the cities of Djibouti (Africa)"
+  format = "TSPLIB file"
+  meta = ["djibouti"]
 
-  [data.preconfigured.national_tsp.file.luxembourg]
+  [data.preconfigured.national_tsp.files.qatar]
+  title = "Qatar"
+  file = "/root/data/qatar/qa194.tsp"
+  description = "A graph representing the cities of Qatar (Middle East)"
+  format = "TSPLIB file"
+  meta = ["qatar"]
+
+  [data.preconfigured.national_tsp.files.luxembourg]
+  title = "Luxembourg"
   file = "/root/data/luxembourg/lu980.tsp"
-  description = "A graph representing all 980 cities in the country of Luxembourg, in TSPLIB format"
-  extra = ["cities", "optimal_tour"]
-  cities = 980
-  optimal_tour = 11340
+  description = "A graph representing the cities of Luxembourg (Europe)"
+  format = "TSPLIB file"
+  meta = ["luxembourg"]
 
 ########################################################
 #
@@ -308,23 +320,33 @@ clean = '/demo/build/clean.sh'
 [source]
 
   [source.preconfigured.acotsp]
-  authors = []
-  version = "1.03"
-  license = 'GPLv2'
-  dir = ['/root/src/acotsp']
   description = "Implements six ant colony optimization algorithmsrithms that solve traveling salesman problems"
+  dir = ['/root/src/acotsp']
+  authors = []
+  license = 'GPLv2'
+  version = "1.03"
   build_files = [
     '/root/src/acotsp/Makefile'
   ]
+  build_artifacts = [
+    '/root/src/acotsp/acotsp'
+  ]
+
+  [source.preconfigured.acotsp.docs.readme]
+  file = "acotsp/README"
+  description = "High-level docs and usage"
+
+  [source.preconfigured.acotsp.notable_files.algorithm]
+  file = 'acotsp.c'
+  description = "Implements ant searching to solve TSP"
+  tag = "(entrypoint)"
 
   [source.preconfigured.acotsp.notable_files.parse]
   file = 'parse.c'
   description = "Parses commandline parameters"
+  tag = ""
 
   [source.preconfigured.acotsp.notable_files.init]
   file = 'InOut.c'
   description = "Initializes the ant colony"
-
-  [source.preconfigured.acotsp.notable_files.algorithm]
-  file = 'acotsp.c'
-  description = "(entrypoint) Implements ant searching to solve TSP"
+  tag = ""

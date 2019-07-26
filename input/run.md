@@ -41,7 +41,6 @@ It forwards logs to the standard output of your shell and it writes them to run.
 | {{format}}   | {{description}} |
 {{/output}}
 
-
 ## Ways to run
 
 Use a configured run

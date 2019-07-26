@@ -1,17 +1,19 @@
 # (help) {{title}}
 
-## About this demo
-
 {{description}}
 
-|            |                                                            |
-| ---------- | ---------------------------------------------------------- |
-| /setup     | scripts used to install the demo in this shell             |
-| /demo      | config files used by the 'demo' CLI                        |
-| /root/src  | source code and build artifacts                            |
-| /root/data | sample test data                                           |
-| /root/docs | articles and papers describing the demo                    |
-| /shared    | synchronized with a shared directory outside of this shell |
+|                |                                                            |
+| -------------- | ---------------------------------------------------------- |
+| /root/src      | source code and build artifacts                            |
+| /root/data     | sample test data                                           |
+| /root/docs     | articles and papers describing the demo                    |
+| /shared        | synchronized with a shared directory outside of this shell |
+|                |                                                            |
+| /setup         | scripts used to install this demo in this shell            |
+| /demo/Demofile | this demo's metadata                                       |
+| /demo/build    | pre-configured build scripts                               |
+| /demo/run      | pre-configured run scripts                                 |
+| /demo/docs     | templates for help guides and generated docs               |
 
 ## Quickstart
 
@@ -47,8 +49,7 @@ $ demo build
 | build | rebuild the main source repositories         |
 | share | access a directory from the shared directory |
 | sync  | rsync changes made in the shared directory   |
-| data  | preprocess new test data                     |
-| docs  | find documentation                           |
+| docs  | generate and find documentation              |
 
 ## Learn more about this demo
 
