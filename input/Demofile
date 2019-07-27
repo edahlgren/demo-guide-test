@@ -1,6 +1,32 @@
 title = "Ant Colony Search"
 image = "demomag/ant-colony-search"
 
+[meta]
+
+  [meta.djibouti.cities]
+  description = "Cities"
+  data = 38
+
+  [meta.djibouti.optimal_tour]
+  description = "Optimal tour"
+  data = 6656
+
+  [meta.qatar.cities]
+  description = "Cities"
+  data = 194
+
+  [meta.qatar.optimal_tour]
+  description = "Optimal tour"
+  data = 194
+  
+  [meta.luxembourg.cities]
+  description = "Cities"
+  data = 980
+  
+  [meta.luxembourg.optimal_tour]
+  description = "Optimal tour"
+  data = 11340
+
 ########################################################
 #
 # 'demo run'
@@ -229,38 +255,6 @@ clean = '/demo/build/clean.sh'
   script = '/demo/build/debug.sh'
   description = "Build acotsp with gcc and include debug symbols"
 
-########################################################
-#
-# 'demo data'
-#
-########################################################
-
-[meta]
-
-  [meta.djibouti.cities]
-  description = "Cities"
-  data = 38
-
-  [meta.djibouti.optimal_tour]
-  description = "Optimal tour"
-  data = 6656
-
-  [meta.qatar.cities]
-  description = "Cities"
-  data = 194
-
-  [meta.qatar.optimal_tour]
-  description = "Optimal tour"
-  data = 194
-  
-  [meta.luxembourg.cities]
-  description = "Cities"
-  data = 980
-  
-  [meta.luxembourg.optimal_tour]
-  description = "Optimal tour"
-  data = 11340
-  
 [data]
 
   [data.preconfigured.national_tsp]
@@ -290,12 +284,6 @@ clean = '/demo/build/clean.sh'
   format = "TSPLIB file"
   meta = ["luxembourg"]
 
-########################################################
-#
-# 'demo source'
-#
-########################################################
-
 [source]
 
   [source.preconfigured.acotsp]
@@ -313,7 +301,7 @@ clean = '/demo/build/clean.sh'
 
   [source.preconfigured.acotsp.docs.readme]
   file = "acotsp/README"
-  description = "High-level docs and usage"
+  description = "High-level description of the acotsp code and its usage"
 
   [source.preconfigured.acotsp.notable_files.algorithm]
   file = 'acotsp.c'

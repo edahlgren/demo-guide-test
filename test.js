@@ -77,9 +77,36 @@ function parseVars(args, topic) {
         return dataForRun(tomlData);
     case 'build':
         return dataForBuild(tomlData);
+    case 'docs':
+        return dataForDocs(tomlData);
     default:
         return tomlData;
     }
+}
+
+function dataForRun(data) {
+    var out = {
+        title: data.title,
+        run: {
+            description: data.run.description,
+        }
+    };
+    
+    out.run['preconfigured'] = objectToArray(data.run.preconfigured);
+    // Add (default) to default run
+    out.run.preconfigured.forEach(function(config) {
+        if (config.name === data.run.default) {
+            config.description += " (default)";
+        }
+    });
+    
+    out.run['examples'] = objectToArray(data.run.examples);
+    out['input'] = objectToArray(data.input);
+    out['output'] = objectToArray(data.output);
+    out['algorithms'] = objectToArray(data.algorithms);
+    out['params'] = objectToArray(data.params);
+
+    return out;
 }
 
 function dataForBuild(data) {
@@ -119,33 +146,26 @@ function dataForBuild(data) {
         repo.build_artifacts = artifacts;
     });
     
-    console.log(util.inspect(out, false, null, true /* enable colors */));
     return out;
 }
 
-function dataForRun(data) {
+function dataForDocs(data) {
     var out = {
         title: data.title,
-        run: {
-            description: data.run.description,
-        }
+        source: {},
+        papers: {}
     };
-    
-    out.run['preconfigured'] = objectToArray(data.run.preconfigured);
-    // Add (default) to default run
-    out.run.preconfigured.forEach(function(config) {
-        if (config.name === data.run.default) {
-            config.description += " (default)";
-        }
-    });
-    
-    out.run['examples'] = objectToArray(data.run.examples);
-    out['input'] = objectToArray(data.input);
-    out['output'] = objectToArray(data.output);
-    out['algorithms'] = objectToArray(data.algorithms);
-    out['params'] = objectToArray(data.params);
 
-    console.log(util.inspect(out, false, null, true /* enable colors */));
+    out.source['preconfigured'] = objectToArray(data.source.preconfigured);
+    out.source.preconfigured.forEach(function(repo) {
+        repo.docs = objectToArray(repo.docs);
+    });
+
+    out.papers = objectToArray(data.papers);
+    out.papers.forEach(function(paper) {
+        paper.keywords = paper.keywords.join(', ');
+    });
+
     return out;
 }
 

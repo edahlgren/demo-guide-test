@@ -8,6 +8,8 @@ const compact = require('lodash/compact');
 const zip = require('lodash/zip');
 const max = require('lodash/max');
 const padEnd = require('lodash/padEnd');
+const get = require('lodash/get');
+
 const wrap = require('word-wrap');
 
 // vars for template.md
@@ -128,6 +130,8 @@ function __renderText(html) {
         
         // This doesn't seem to work properly
         wordwrap: 70,
+
+        unorderedListItemPrefix: '- ',
         
         format: {
             heading: function(elem, fn, options) {
@@ -164,11 +168,9 @@ function __renderText(html) {
                 return text;
             },
             unorderedList: function(elem, fn, options) {
-                let text = fn(elem.children, options);
-                //console.log("Warning didn't write unordered list: " +
-                //            elem.name + ": " + text);
-                buffer += formatIndent(true) + text + '\n\n';
-                return text;
+                let text = formatUnorderedList(elem, fn, options);
+                buffer += text;
+                return text;                
             },
             listItem: function(elem, fn, options) {
                 let text = fn(elem.children, options);
@@ -432,8 +434,35 @@ function tableToString(table, options) {
     return text;
 }
 
-function splitOnWords(str, nchars) {
-    return wrap(str, {width: nchars}).split('\n');
+var whiteSpaceRegex = /^\s*$/;
+
+function formatUnorderedList(elem, fn, options) {
+    // if this list is a child of a list-item,
+    // ensure that an additional line break is inserted
+    var parentName = get(elem, 'parent.name');
+    var result = parentName === 'li' ? '\n' : '';
+    var prefix = options.unorderedListItemPrefix;
+    var nonWhiteSpaceChildren = (elem.children || []).filter(function(child) {
+        return child.type !== 'text' || !whiteSpaceRegex.test(child.data);
+    });
+    nonWhiteSpaceChildren.forEach(function(elem) {
+        result += formatListItem(prefix, elem, fn, options);
+    });
+    return result + '\n';
+}
+
+function formatListItem(prefix, elem, fn, options) {
+    options = Object.assign({}, options);
+    // Reduce the wordwrap for sub elements.
+    if (options.wordwrap) {
+        options.wordwrap -= prefix.length;
+    }
+    // Process sub elements.
+    var text = fn(elem.children, options);
+    // Replace all line breaks with line break + prefix spacing.
+    text = text.replace(/\n/g, '\n' + ' '.repeat(prefix.length));
+    // Add first prefix and line break at the end.
+    return formatIndent(false) + prefix + text + '\n';
 }
 
 module.exports = {

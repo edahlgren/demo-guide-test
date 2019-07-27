@@ -1,88 +1,73 @@
 # (docs help) - {{title}}
 
+Find and generate documentation about this demo
+
 ## Quick reference
 
-Find docs
-
-|                      |                                                                      |
-| -------------------- | -------------------------------------------------------------------- |
-| /docs/data/README    | overview of the data in /root/data                                   |
-|                      |                                                                      |
-| /docs/src/README     | overview of source code in /root/src                                 |
-| /docs/src/*/         | documentation included in source repositories, linked from /root/src |
-|                      |                                                                      |
-| /docs/papers         | research papers that describe the demo                               |
-|                      |                                                                      |
-| /docs/help/text      | text file help guides for demo commands                              |
-| /docs/help/html      | html help guides for demo commands                                   |
-
-Re-generate help guides from /demo/Demofile and the markdown templates in /demo/docs
+Show this guide
 
 ```
 $ demo docs
 ```
 
-View this guide
+Re-generate the help guides in /docs/help
 
 ```
-$ demo docs --help
+$ demo docs --make
 ```
 
 ## Summary
 
-The 'demo docs' command generates help guides from a Demofile.
+The 'demo docs' command prints a map of all documentation in this demo. See 'Overview' below.
 
-## General Options
+The 'demo docs --make' command uses a Demofile to create markdown guides, which then are converted to plain text and html for easy viewing.
 
-| -------  | --------------------------------------------- |
-| --help   | Show this guide                               |
+|                             |
+| --------------------------- |
+| ___Input                    |
+| /demo/Demofile              |
+| /demo/docs/templates/*.md   |
+| /demo/docs/templates/*.html |
+| ___Output                   |
+| /docs/help/*.txt            |
+| /docs/help/*.html           |
 
-## What happens
-
-The 'demo docs' command creates a help guide for each template, first by filling in each markdown template with data from /demo/Demofile, then by converting the markdown to html, and finally by converting the html into a formatted text file.
-
-### Input
-
-| ---------------------- |
-| /demo/Demofile         |
-| /demo/docs/templates   |
-
-### Output
-
-| ---------------------- |
-| /root/data/README      |
-| /root/src/README       |
-| /docs/help/text/*      |
-| /docs/help/html/*      |
-
-## Source docs
-
-|                    |             |
-| ------------------ | ----------- |
-{{#docs.source}}
-{{#keywords}}
-| /docs/src/{{file}} | {{keyword}} |
-{{/keywords}}
-{{/docs.source}}
-
-## Papers
-
-|                       |                 |
-| --------------------- | --------------- |
-{{#docs.papers}}
-{{#keywords}}
-| /docs/papers/{{file}} | {{keyword}}     |
-{{/keywords}}
-{{/docs.papers}}
-
-## Help docs
+## Overview
 
 |                              |                      |
 | ---------------------------- | -------------------- |
-| /docs/guides/help.md         | 'demo --help'        |
-| /docs/guides/run.md          | 'demo run --help'    |
-| /docs/guides/build.md        | 'demo build --help'  |
-| /docs/guides/share-sync.md   | 'demo share --help'  |
+|                              | (description)        |
+|___Source docs                |                      |
+{{#source.preconfigured}}
+{{#docs}}
+| /docs/src/{{file}}           | {{description}}      |
+{{/docs}}
+{{/source.preconfigured}}
+|___Research papers            |                      |
+{{#papers}}
+| /docs/papers/{{file}}        | {{keywords}}         |
+{{/papers}}
+|___Demo command guides        |                      |
+| /docs/guides/help.txt        | 'demo --help'        |
+| /docs/guides/run.txt         | 'demo run --help'    |
+| /docs/guides/build.txt       | 'demo build --help'  |
+| /docs/guides/share-sync.txt  | 'demo share --help'  |
 |                              | 'demo sync --help'   |
-| /docs/guides/docs.md         | 'demo docs --help'   |
-| /docs/guides/data.md         | 'demo data --help'   |
+|___File guides                |                      |
+| /docs/guides/docs.txt        | 'demo docs'          |
+| /docs/guides/data.txt        | 'demo data'          |
+| /docs/guides/source.txt      | 'demo source'        |
+
+## Help
+
+View this guide
+
+```
+$ demo docs
+```
+
+Same as above
+
+```
+$ demo docs --help
+```
