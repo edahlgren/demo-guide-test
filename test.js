@@ -79,6 +79,10 @@ function parseVars(args, topic) {
         return dataForBuild(tomlData);
     case 'docs':
         return dataForDocs(tomlData);
+    case 'data':
+        return dataForData(tomlData);
+    case 'source':
+        return dataForSource(tomlData);
     default:
         return tomlData;
     }
@@ -164,6 +168,39 @@ function dataForDocs(data) {
     out.papers = objectToArray(data.papers);
     out.papers.forEach(function(paper) {
         paper.keywords = paper.keywords.join(', ');
+    });
+
+    return out;
+}
+
+function dataForData(data) {
+    var out = {
+        title: data.title,
+        data: {}
+    };
+
+    out.data['preconfigured'] = objectToArray(data.data.preconfigured);
+    out.data.preconfigured.forEach(function(dataset) {
+        dataset.files = objectToArray(dataset.files);
+        dataset.files.forEach(function(file) {
+            file.meta = objectToArray(file.meta);
+        });
+    });
+    
+    return out;
+}
+
+function dataForSource(data) {
+    var out = {
+        title: data.title,
+        source: {}
+    };
+    
+    out.source['preconfigured'] = objectToArray(data.source.preconfigured);
+    out.source.preconfigured.forEach(function(repo) {
+        repo.authors = repo.authors.join(", ");
+        repo.docs = objectToArray(repo.docs);
+        repo.notable_files = objectToArray(repo.notable_files);
     });
 
     return out;

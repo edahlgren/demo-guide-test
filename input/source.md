@@ -1,20 +1,26 @@
 # (source) - {{title}}
 
-Source code included in /root/data
+Source code included in this demo
 
 {{#source.preconfigured}}
+
 ## {{name}}
 
 {{description}}
 
-| --------- | ----------- |
-| directory | {{dir}}     |
-| authors   | {{authors}} |
-| license   | {{license}} |
-| version   | {{verion}}  |
+|           |              |
+| --------- | ------------ |
+| license   | {{license}}  |
+| version   | {{version}}  |
+| authors   | {{authors}}  |
+
+### Location
+
+{{dir}}
 
 ### Notable files
 
+|         |          |                 |
 | ------- | -------- | --------------- |
 {{#notable_files}}
 | {{tag}} | {{file}} | {{description}} |

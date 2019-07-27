@@ -1,23 +1,18 @@
 # (data) - {{title}}
 
-Data sets included in /root/data
+Test data included in this demo
 
 {{#data.preconfigured}}
 ## {{title}}
 
-| ------- | ---------- |
-| source  | {{source}} |
-| url     | {{url}}    |
+{{description}}
 
-### Files
+- Source: {{source}}
+- URL: {{url}}
 
-{{#files}}
-| -------- | ---------- | --------------- |
-| {{file}} | {{format}} | {{description}} |
-{{/files}}
+### Data sets
 
-### Metadata
-
+|                 |            |
 | --------------- | ---------- |
 {{#files}}
 | ___{{title}}    |            |
@@ -25,5 +20,4 @@ Data sets included in /root/data
 | {{description}} | {{data}}   |
 {{/meta}}
 {{/files}}
-
 {{/data.preconfigured}}
